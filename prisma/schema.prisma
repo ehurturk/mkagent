@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Workflow {
+  id          String  @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+
+  definition String @db.LongText // holds workflow information
+  status     String // DRAFT | PUBLISHED
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  // User cannot have two workflows with the same name 
+  @@unique([name, userId])
+}
