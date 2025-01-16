@@ -1,7 +1,7 @@
 import { Task, TaskInputType, TaskType } from "@/app/workflow/types/task";
 import { WrapText, LucideProps } from "lucide-react";
 
-export const PromptTask = {
+export const PromptTask: Task = {
   type: TaskType.CREATE_PROMPT,
   label: "Create Prompt",
   theme: "#10B981",
@@ -15,4 +15,4 @@ export const PromptTask = {
       hideHandle: true,
     },
   ],
-} as Task;
+};

@@ -15,6 +15,7 @@ import { AlertCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { deleteWorkflow } from "@/app/workflow/lib/actions/workflowActions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import toast from "react-hot-toast";
 
 interface DeleteWorkflowDialogProps {
   workflowId: string;
@@ -29,20 +30,26 @@ export function DeleteWorkflowButton({
 }: DeleteWorkflowDialogProps) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleDelete = async () => {
     setIsLoading(true);
     try {
       const result = await deleteWorkflow(workflowId);
       if (result.error) {
-        setError(result.error);
+        toast.error(
+          `Failed to delete workflow ${workflowName}: ${result.error}`
+        );
         return;
       }
+      toast.success("Workflow deleted successfully.");
       onDeleted?.();
       setOpen(false);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to delete workflow");
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : `Failed to delete workflow ${workflowName}`
+      );
     } finally {
       setIsLoading(false);
     }
@@ -67,12 +74,6 @@ export function DeleteWorkflowButton({
               This will permanently delete the workflow "{workflowName}". This
               action cannot be undone.
             </AlertDialogDescription>
-            {error && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>

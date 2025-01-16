@@ -1,7 +1,7 @@
 import { Task, TaskInputType, TaskType } from "@/app/workflow/types/task";
 import { BrainIcon, LucideProps } from "lucide-react";
 
-export const LLMTask = {
+export const LLMTask: Task = {
   type: TaskType.USE_LLM,
   label: "Use LLM",
   theme: "#3B82F6",
@@ -15,4 +15,4 @@ export const LLMTask = {
       hideHandle: false,
     },
   ],
-} as Task;
+};
