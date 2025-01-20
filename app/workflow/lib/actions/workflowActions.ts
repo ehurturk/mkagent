@@ -2,12 +2,12 @@
 "use server";
 
 import prisma from "@/lib/db";
-import {revalidatePath} from "next/cache";
-import {Prisma} from "@prisma/client";
-import {AppNode} from "@/app/workflow/types/appNode";
-import {Edge} from "@xyflow/react";
-import {CreateFlowNode} from "@/app/workflow/lib/createFlowNode";
-import {TaskType} from "@/app/workflow/types/task";
+import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
+import { AppNode } from "@/app/workflow/types/appNode";
+import { Edge } from "@xyflow/react";
+import { CreateFlowNode } from "@/app/workflow/lib/createFlowNode";
+import { TaskType } from "@/app/workflow/types/task";
 
 export async function createWorkflow(data: {
   userId: string;
@@ -16,14 +16,13 @@ export async function createWorkflow(data: {
   status: string;
 }) {
   if (!data) {
-    return { success: false, data: null, error: "No data provided" };
+    throw new Error(`No data provided for workflow.`);
   }
 
-  const initialFlow: {nodes: AppNode[]; edges: Edge[]} = {
+  const initialFlow: { nodes: AppNode[]; edges: Edge[] } = {
     nodes: [CreateFlowNode(TaskType.CREATE_PROMPT)],
-    edges: []
-  }
-
+    edges: [],
+  };
 
   try {
     const workflow = await prisma.workflow.create({
@@ -37,31 +36,25 @@ export async function createWorkflow(data: {
     });
 
     revalidatePath("/workflows");
-    return { success: true, data: workflow, error: null };
+    return workflow;
   } catch (error) {
+    // TODO: remove in production.
     console.error("Error creating workflow:", error);
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        return {
-          success: false,
-          data: null,
-          error: "A workflow with this name already exists for this user",
-        };
+        throw new Error(
+          "A workflow with this name already exists for this user."
+        );
       }
     }
 
-    // Include error details in development
     const errorMessage =
       process.env.NODE_ENV === "development"
         ? `Failed to create workflow: ${error}`
         : "Failed to create workflow";
 
-    return {
-      success: false,
-      data: null,
-      error: errorMessage,
-    };
+    throw new Error(`Failed to create workflow: ${errorMessage}`);
   }
 }
 
@@ -78,7 +71,7 @@ export async function updateWorkflow(
   try {
     // Remove undefined values
     const updateData = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => value !== undefined)
+      Object.entries(data).filter(([value]) => value !== undefined)
     );
 
     const workflow = await prisma.workflow.update({
@@ -86,15 +79,9 @@ export async function updateWorkflow(
       data: updateData,
     });
 
-    return { success: true, data: workflow, error: null };
+    return workflow;
   } catch (error) {
-    console.error("Error updating workflow:", error);
-
-    return {
-      success: false,
-      data: null,
-      error: `Failed to update workflow: ${error}`,
-    };
+    throw new Error(`Failed to update workflow: ${error}`);
   }
 }
 
@@ -103,9 +90,9 @@ export async function getUserWorkflows(userId: string) {
     const workflows = await prisma.workflow.findMany({
       where: { userId },
     });
-    return { data: workflows };
+    return workflows;
   } catch (error) {
-    return { error: `Failed to fetch workflows: ${error}` };
+    throw new Error(`Failed to fetch workflows: ${error}`);
   }
 }
 
@@ -115,15 +102,11 @@ export async function getWorkflow(id: string) {
       where: { id },
     });
     if (workflow.length === 0) {
-      return {success: false, data: null, error: "No workflow found"};
+      throw new Error("No workflow found");
     }
-    return { success: true, data: workflow[0], error: null };
+    return workflow[0];
   } catch (error) {
-    return {
-      success: false,
-      data: null,
-      error: `Failed to fetch workflow: ${error}`,
-    };
+    throw new Error(`Failed to fetch workflow: ${error}`);
   }
 }
 
@@ -135,6 +118,6 @@ export async function deleteWorkflow(id: string) {
     revalidatePath("/workflows");
     return { success: true };
   } catch (error) {
-    return { error: "Failed to delete workflow" };
+    throw new Error(`Failed to delete workflow: ${error}`);
   }
 }

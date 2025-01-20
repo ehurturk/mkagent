@@ -1,5 +1,20 @@
-import { Task, TaskInputType, TaskType } from "@/app/workflow/types/task";
+import PromptEditor from "@/app/workflow/lib/tasks/components/PromptEditor";
+import {
+  Task,
+  TaskParameterType,
+  TaskType,
+  EditorComponentProps,
+} from "@/app/workflow/types/task";
 import { WrapText, LucideProps } from "lucide-react";
+
+const PromptEditorWrapped = (props: EditorComponentProps) => (
+  <PromptEditor
+    id={props.id}
+    param={props.param}
+    value={props.value}
+    onSave={props.onSave}
+  />
+);
 
 export const PromptTask: Task = {
   type: TaskType.CREATE_PROMPT,
@@ -10,9 +25,16 @@ export const PromptTask: Task = {
   inputs: [
     {
       name: "Prompt Template",
-      type: TaskInputType.STRING,
+      type: TaskParameterType.EDITOR,
       required: true,
       hideHandle: true,
+      args: { editor: PromptEditorWrapped },
+    },
+  ],
+  outputs: [
+    {
+      name: "LLM",
+      type: TaskParameterType.LLM,
     },
   ],
 };

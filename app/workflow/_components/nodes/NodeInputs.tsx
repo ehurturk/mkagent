@@ -1,5 +1,5 @@
 import NodeParamField from "@/app/workflow/_components/nodes/NodeParamField";
-import { TaskInput } from "@/app/workflow/types/task";
+import { TaskParameter } from "@/app/workflow/types/task";
 import { Handle, Position } from "@xyflow/react";
 import React from "react";
 
@@ -11,7 +11,7 @@ export function NodeInput({
   input,
   nodeId,
 }: {
-  input: TaskInput;
+  input: TaskParameter;
   nodeId: string;
 }) {
   return (

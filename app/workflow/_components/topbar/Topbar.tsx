@@ -15,7 +15,7 @@ interface Props {
 
 function Topbar({ id, title, subtitle }: Props) {
   return (
-    <header className="flex p-2 border-p2 border-separate justify-between w-full h-[60px] sticky top-0 bg-background z-10">
+    <header className="sticky top-0 z-10 flex h-14 w-full items-center justify-between border-b bg-gradient-to-r from-blue-400/10 via-purple-400/5 to-background backdrop-blur-sm px-4">
       <div className="flex gap-1 flex-1">
         <TooltipProvider>
           <Tooltip>

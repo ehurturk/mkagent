@@ -1,16 +1,36 @@
 import { LucideProps } from "lucide-react";
 
-export enum TaskInputType {
+export enum TaskParameterType {
   STRING = "STRING",
   PROMPT = "PROMPT",
+  EDITOR = "EDITOR", // for prompt editor, etc.
+  LLM = "LLM",
 }
 
-export interface TaskInput {
+export interface EditorComponentProps<T = any> {
+  id: string;
+  param: TaskParameter;
+  value: T;
+  onSave: any;
+}
+
+interface TaskParameterArgs {
+  editor?: React.ComponentType<EditorComponentProps>;
+  // TODO: add more parameters
+}
+
+export interface TaskParameter {
   name: string;
-  type: TaskInputType;
+  type: TaskParameterType;
   required?: boolean;
   hideHandle?: boolean;
+  args?: TaskParameterArgs; // additional params
   [key: string]: any;
+}
+
+export interface TaskOutput {
+  name: string;
+  type: Task;
 }
 
 export enum TaskType {
@@ -24,5 +44,6 @@ export interface Task {
   theme: string;
   icon: (props: LucideProps) => React.ReactNode;
   isEntryPoint: boolean;
-  inputs: TaskInput[];
+  inputs: TaskParameter[];
+  outputs: TaskParameter[];
 }

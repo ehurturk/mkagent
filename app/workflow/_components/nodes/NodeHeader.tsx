@@ -24,9 +24,9 @@ function NodeHeader({ taskType }: { taskType: TaskType }) {
         <p className="text-white text-xs font-bold uppercase">{task.label}</p>
         <div className="flex gap-1 items-center">
           {task.isEntryPoint && (
-            <Badge variant={"outline"}>
-              <Play size={16} />
-            </Badge>
+            // <Badge variant={"outline"}>
+            <Play size={16} />
+            // </Badge>
           )}
         </div>
       </div>

@@ -53,7 +53,7 @@ function StringParam({ param, value, updateNodeParamValue }: ParamProps) {
           onChange={(e) => setIval(e.target.value)}
           onBlur={(e) => {
             setIsFocused(false);
-            updateNodeParamValue(e.target.value);
+            updateNodeParamValue.mutateAsync(e.target.value);
           }}
           onFocus={() => setIsFocused(true)}
           className={`

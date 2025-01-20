@@ -1,4 +1,4 @@
-import { Task, TaskInputType, TaskType } from "@/app/workflow/types/task";
+import { Task, TaskParameterType, TaskType } from "@/app/workflow/types/task";
 import { BrainIcon, LucideProps } from "lucide-react";
 
 export const LLMTask: Task = {
@@ -10,9 +10,10 @@ export const LLMTask: Task = {
   inputs: [
     {
       name: "User Prompt",
-      type: TaskInputType.PROMPT,
+      type: TaskParameterType.PROMPT,
       required: true,
       hideHandle: false,
     },
   ],
+  outputs: [],
 };

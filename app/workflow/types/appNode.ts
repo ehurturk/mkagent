@@ -1,14 +1,15 @@
 import { Node } from "@xyflow/react";
-import { TaskInput, TaskType } from "@/app/workflow/types/task";
+import { TaskParameter, TaskType } from "@/app/workflow/types/task";
 
-export interface ParamProps {
-  param: TaskInput;
-  value: string;
-  updateNodeParamValue: (newValue: string) => void;
+export interface ParamProps<T = string> {
+  param: TaskParameter;
+  value: T;
+  updateNodeParamValue: any;
 }
 
 export interface AppNodeData {
   type: TaskType;
+  // "Prompt Template": ""
   inputs: Record<string, string>;
   [key: string]: TaskType | Record<string, string>;
 }

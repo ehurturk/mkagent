@@ -11,10 +11,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { deleteWorkflow } from "@/app/workflow/lib/actions/workflowActions";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import toast from "react-hot-toast";
 
 interface DeleteWorkflowDialogProps {
@@ -33,26 +32,19 @@ export function DeleteWorkflowButton({
 
   const handleDelete = async () => {
     setIsLoading(true);
-    try {
-      const result = await deleteWorkflow(workflowId);
-      if (result.error) {
-        toast.error(
-          `Failed to delete workflow ${workflowName}: ${result.error}`
-        );
-        return;
-      }
-      toast.success("Workflow deleted successfully.");
-      onDeleted?.();
-      setOpen(false);
-    } catch (e) {
-      toast.error(
-        e instanceof Error
-          ? e.message
-          : `Failed to delete workflow ${workflowName}`
-      );
-    } finally {
-      setIsLoading(false);
-    }
+
+    await toast.promise(deleteWorkflow(workflowId), {
+      loading: "Deleting workflow...",
+      success: () => {
+        onDeleted?.();
+        setOpen(false);
+        return "Workflow deleted successfully";
+      },
+      error: (error: any) =>
+        `Failed to delete workflow ${workflowName}: ${error}`,
+    });
+
+    setIsLoading(false);
   };
 
   return (

@@ -50,7 +50,6 @@ export function CreateWorkflowDialog({
     visibility: "private",
   });
 
-
   const handleCreate = async () => {
     setIsLoading(true);
     setError(null);
@@ -60,31 +59,23 @@ export function CreateWorkflowDialog({
       setIsLoading(false);
       return;
     }
-    try {
-      const resp = await createWorkflow({
-        userId: "ZAZAZA",
-        name: formData.name,
-        description: formData.description,
-        status: "draft",
-      });
-      if (!resp) {
-        setError("A technical error occured. Please try again.");
-        return;
-      }
-      if (resp.error) {
-        // Handle error (maybe show an error message)
-        setError(resp.error);
-        return;
-      }
-      if (resp.data) {
-        router.push(`/workflow/editor/${resp.data.id}`);
+
+    await createWorkflow({
+      userId: "ZAZAZA",
+      name: formData.name,
+      description: formData.description,
+      status: "draft",
+    })
+      .then((response) => {
+        router.push(`/workflow/editor/${response.id}`);
         onOpenChange(false);
-      }
-    } catch (e) {
-      setError(`Failed to create workflow: ${e}`);
-    } finally {
-      setIsLoading(false);
-    }
+      })
+      .catch((error) => {
+        setError(`Failed to create workflow: ${error}`);
+        return;
+      });
+
+    setIsLoading(false);
   };
 
   const handleChange = (field: keyof FormData, value: string) => {

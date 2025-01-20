@@ -2,35 +2,38 @@
 
 import StringParam from "@/app/workflow/_components/nodes/params/StringParam";
 import { AppNode } from "@/app/workflow/types/appNode";
-import { TaskInput, TaskInputType } from "@/app/workflow/types/task";
+import { TaskParameter, TaskParameterType } from "@/app/workflow/types/task";
 import { useReactFlow } from "@xyflow/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import EditorParam from "@/app/workflow/_components/nodes/params/EditorParam";
+import { useMutation } from "@tanstack/react-query";
 
 function NodeParamField({
   param,
   nodeId,
 }: {
-  param: TaskInput;
+  param: TaskParameter;
   nodeId: string;
 }) {
   const { updateNodeData, getNode } = useReactFlow();
   const node = getNode(nodeId) as AppNode;
   const value = node?.data.inputs?.[param.name];
 
-  const updateNodeParamValue = useCallback(
-    (newValue: string) => {
-      updateNodeData(nodeId, {
-        inputs: {
-          ...node?.data.inputs,
-          [param.name]: newValue,
-        },
-      });
-    },
-    [nodeId, updateNodeData, param.name, node?.data.inputs]
-  );
+  const updateNodeParamValue = useMutation({
+    mutationFn: (data: any) =>
+      new Promise<void>((resolve) => {
+        updateNodeData(nodeId, {
+          inputs: {
+            ...node?.data.inputs,
+            [param.name]: data,
+          },
+        });
+        resolve();
+      }),
+  });
 
   switch (param.type) {
-    case TaskInputType.STRING:
+    case TaskParameterType.STRING:
       return (
         <StringParam
           param={param}
@@ -38,6 +41,16 @@ function NodeParamField({
           updateNodeParamValue={updateNodeParamValue}
         />
       );
+    case TaskParameterType.EDITOR:
+      return (
+        <EditorParam
+          id={nodeId}
+          param={param}
+          value={value}
+          updateNodeParamValue={updateNodeParamValue}
+        />
+      );
+
     default:
       return (
         <div className="w-full">
