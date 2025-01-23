@@ -8,7 +8,7 @@
   }
 }
 */
-import { TaskParameter } from "@/app/workflow/types/task";
+import { EditorComponentProps } from "@/app/workflow/types/task";
 import { Label } from "@/components/ui/label";
 import React from "react";
 
@@ -16,15 +16,8 @@ export default function EditorParam({
   id,
   param,
   value,
-  updateNodeParamValue,
-  disabled,
-}: {
-  id: string;
-  param: TaskParameter;
-  value: string;
-  updateNodeParamValue: any;
-  disabled: boolean;
-}) {
+  onSave,
+}: EditorComponentProps<string>) {
   const EditorComponent = param.args?.editor;
 
   const parsedInitialValue = React.useMemo(() => {
@@ -67,7 +60,7 @@ export default function EditorParam({
             id={id}
             param={param}
             value={parsedInitialValue}
-            onSave={updateNodeParamValue}
+            onSave={onSave}
           />
         )}
       </div>

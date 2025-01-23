@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
+export const runtime = "edge";
+
 const prismaClientSingleton = () => {
   return new PrismaClient();
 };

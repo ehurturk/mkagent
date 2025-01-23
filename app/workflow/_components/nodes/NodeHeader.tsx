@@ -1,6 +1,5 @@
 import { TaskRegistry } from "@/app/workflow/lib/tasks/registry";
 import { TaskType } from "@/app/workflow/types/task";
-import { Badge } from "@/components/ui/badge";
 import { Play } from "lucide-react";
 import React from "react";
 

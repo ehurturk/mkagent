@@ -2,11 +2,13 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
 
+export const runtime = "edge";
+
 export async function GET() {
   try {
     const users = await prisma.workflow.findMany();
     return NextResponse.json(users);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch users" },
       { status: 500 }

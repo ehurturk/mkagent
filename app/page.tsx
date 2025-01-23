@@ -14,6 +14,8 @@ import {
 import GradientText from "@/components/ui/GradientText";
 import TrueFocus from "@/components/ui/TrueFocus";
 
+// export const runtime = "edge";
+
 export default function LandingPage() {
   const [isNavOpen, setIsNavOpen] = useState(false);
 

@@ -1,6 +1,4 @@
-// lib/actions/workflowActions.ts
 "use server";
-
 import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
@@ -9,6 +7,7 @@ import { Edge } from "@xyflow/react";
 import { CreateFlowNode } from "@/app/workflow/lib/createFlowNode";
 import { TaskType } from "@/app/workflow/types/task";
 
+// export const runtime = "edge";
 export async function createWorkflow(data: {
   userId: string;
   name: string;

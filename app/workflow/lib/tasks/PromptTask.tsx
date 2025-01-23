@@ -7,7 +7,13 @@ import {
 } from "@/app/workflow/types/task";
 import { WrapText, LucideProps } from "lucide-react";
 
-const PromptEditorWrapped = (props: EditorComponentProps) => (
+const PromptEditorWrapped = (
+  props: EditorComponentProps<{
+    systemMessage: string;
+    humanMessage: string;
+    variables: Record<string, string>;
+  }>
+) => (
   <PromptEditor
     id={props.id}
     param={props.param}

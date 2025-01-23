@@ -1,7 +1,6 @@
 import React from "react";
 import {
   BaseEdge,
-  getBezierPath,
   getSmoothStepPath,
   useViewport,
   type EdgeProps,
@@ -16,10 +15,8 @@ export default function CustomEdge({
   sourcePosition,
   targetPosition,
   selected,
-  style = {},
-  markerEnd,
 }: EdgeProps) {
-  const [edgePath, labelX, labelY] = getSmoothStepPath({
+  const [edgePath, ,] = getSmoothStepPath({
     sourceX,
     sourceY,
     sourcePosition,

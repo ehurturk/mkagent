@@ -1,12 +1,6 @@
 import NodeParamField from "@/app/workflow/_components/nodes/NodeParamField";
 import { TaskParameter } from "@/app/workflow/types/task";
-import {
-  Edge,
-  Handle,
-  Position,
-  useEdges,
-  useHandleConnections,
-} from "@xyflow/react";
+import { Edge, Handle, Position, useEdges } from "@xyflow/react";
 import React from "react";
 export function NodeInputs({ children }: { children: React.ReactNode }) {
   return <div className="flex flex-col min-w-[120px]">{children}</div>;
@@ -15,7 +9,6 @@ export function NodeInputs({ children }: { children: React.ReactNode }) {
 export function NodeInput({
   input,
   nodeId,
-  connectionCount,
 }: {
   input: TaskParameter;
   nodeId: string;

@@ -62,7 +62,7 @@ const taskCategories = [
 function TaskMenu() {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedCategory, setExpandedCategory] = useState("Input/Output");
-  const [_, setType] = useDragDrop();
+  const [, setType] = useDragDrop();
 
   const onDragStart = (event: DragEvent<HTMLDivElement>, taskType: string) => {
     if (setType) setType(taskType);

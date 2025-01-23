@@ -1,10 +1,12 @@
 import { Node } from "@xyflow/react";
 import { TaskParameter, TaskType } from "@/app/workflow/types/task";
+import { UseMutationResult } from "@tanstack/react-query";
 
 export interface ParamProps<T = string> {
   param: TaskParameter;
   value: T;
-  updateNodeParamValue: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateNodeParamValue: UseMutationResult<void, Error, any, unknown>;
   disabled: boolean;
 }
 

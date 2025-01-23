@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { updateWorkflow } from "@/app/workflow/lib/actions/workflowActions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -19,7 +20,7 @@ export function useWorkflowSave(id: string) {
     return toast.promise(saveWorkflowMutation.mutateAsync(definition), {
       loading: "Saving...",
       success: "Saved!",
-      error: (e: Error) => "Error happened while saving. Please try again.",
+      error: "Error happened while saving. Please try again.",
     });
   };
 

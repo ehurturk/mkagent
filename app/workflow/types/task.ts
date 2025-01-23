@@ -1,3 +1,4 @@
+import { UseMutationResult } from "@tanstack/react-query";
 import { LucideProps } from "lucide-react";
 
 export enum TaskParameterType {
@@ -11,15 +12,24 @@ export enum TaskParameterType {
   DROPDOWN = "DROPDOWN",
 }
 
-export interface EditorComponentProps<T = any> {
+export interface EditorComponentProps<T = unknown> {
   id: string;
   param: TaskParameter;
   value: T;
-  onSave: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSave: UseMutationResult<void, Error, any, unknown>;
+  disabled?: boolean;
 }
 
 interface TaskParameterArgs {
-  editor?: React.ComponentType<EditorComponentProps>;
+  // TODO: Change the type!!!!!!
+  editor?: React.ComponentType<
+    EditorComponentProps<{
+      systemMessage: string;
+      humanMessage: string;
+      variables: Record<string, string>;
+    }>
+  >;
   // TODO: add more parameters
 }
 
@@ -30,6 +40,7 @@ export interface TaskParameter {
   required?: boolean;
   hideHandle?: boolean;
   args?: TaskParameterArgs; // additional params
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -52,6 +63,6 @@ export interface Task {
   icon: (props: LucideProps) => React.ReactNode;
   isEntryPoint: boolean;
   inputs: TaskParameter[];
-  attributes: any[];
+  attributes: unknown[];
   outputs: TaskParameter[];
 }

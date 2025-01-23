@@ -21,6 +21,7 @@ function NodeParamField({
   const value = node?.data.inputs?.[param.name];
 
   const updateNodeParamValue = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (data: any) =>
       new Promise<void>((resolve) => {
         updateNodeData(nodeId, {
@@ -50,7 +51,7 @@ function NodeParamField({
           param={param}
           value={value}
           disabled={disabled}
-          updateNodeParamValue={updateNodeParamValue}
+          onSave={updateNodeParamValue}
         />
       );
     case TaskParameterType.EXPRESSION:

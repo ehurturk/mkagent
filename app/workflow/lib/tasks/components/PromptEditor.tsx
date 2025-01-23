@@ -24,7 +24,6 @@ import {
   Check,
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import toast from "react-hot-toast";
 import { useWorkflowSave } from "@/app/workflow/lib/hooks/useWorkflowSave";
 import { EditorComponentProps } from "@/app/workflow/types/task";
 import { useReactFlow } from "@xyflow/react";
@@ -55,12 +54,13 @@ const HighlightedMessage: React.FC<HighlightedMessageProps> = ({ text }) => {
   );
 };
 
-const PromptEditor: React.FC<EditorComponentProps> = ({
-  id,
-  param,
-  value,
-  onSave,
-}) => {
+const PromptEditor: React.FC<
+  EditorComponentProps<{
+    systemMessage: string;
+    humanMessage: string;
+    variables: Record<string, string>;
+  }>
+> = ({ value, onSave }) => {
   const [systemMessage, setSystemMessage] = useState<string>(
     value["systemMessage"]
   );
@@ -74,7 +74,9 @@ const PromptEditor: React.FC<EditorComponentProps> = ({
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const { workflowId } = useWorkflowId();
-  const { saveWorkflow, isSaving } = useWorkflowSave(workflowId!!);
+  const { saveWorkflow, isSaving } = useWorkflowSave(
+    workflowId ? workflowId : ""
+  );
   const { toObject } = useReactFlow();
 
   useEffect(() => {
@@ -87,7 +89,8 @@ const PromptEditor: React.FC<EditorComponentProps> = ({
       newVars[varName] = variables[varName] || "";
     });
 
-    setVariables(newVars);
+    if (newVars !== variables) setVariables(newVars);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [humanMessage]);
 
   useEffect(() => {

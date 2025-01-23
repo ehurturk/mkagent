@@ -40,6 +40,7 @@ export function DeleteWorkflowButton({
         setOpen(false);
         return "Workflow deleted successfully";
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       error: (error: any) =>
         `Failed to delete workflow ${workflowName}: ${error}`,
     });
@@ -63,8 +64,8 @@ export function DeleteWorkflowButton({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the workflow "{workflowName}". This
-              action cannot be undone.
+              This will permanently delete the workflow `&quot;`{workflowName}
+              `&quot;`. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

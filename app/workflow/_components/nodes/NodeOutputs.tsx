@@ -1,13 +1,7 @@
 "use client";
 
-import { AppNode } from "@/app/workflow/types/appNode";
 import { TaskParameter } from "@/app/workflow/types/task";
-import {
-  Handle,
-  Position,
-  useHandleConnections,
-  useReactFlow,
-} from "@xyflow/react";
+import { Handle, Position } from "@xyflow/react";
 import { ReactNode } from "react";
 
 export function NodeOutputs({ children }: { children: ReactNode }) {
@@ -16,7 +10,6 @@ export function NodeOutputs({ children }: { children: ReactNode }) {
 
 export function NodeOutput({
   output,
-  connectionCount,
 }: {
   output: TaskParameter;
   connectionCount?: number;

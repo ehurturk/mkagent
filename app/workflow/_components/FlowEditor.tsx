@@ -11,7 +11,6 @@ import {
   BackgroundVariant,
   ColorMode,
   useReactFlow,
-  Node,
   addEdge,
   Connection,
   Edge,
@@ -45,7 +44,7 @@ function FlowEditor({ workflow }: { workflow: IWorkflow }) {
 
   useEffect(() => {
     setWorkflowId(workflow.id);
-  }, [workflow?.id]);
+  }, [setWorkflowId, workflow?.id]);
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -72,7 +71,7 @@ function FlowEditor({ workflow }: { workflow: IWorkflow }) {
             inp.type === TaskParameterType.COMPUTATION
         )
       )
-        setEdges((eds) => addEdge({ ...params, type: "custom" }, edges));
+        setEdges(() => addEdge({ ...params, type: "custom" }, edges));
 
       if (!params.targetHandle) return;
       const nodeInputs = t.data.inputs;
@@ -81,15 +80,17 @@ function FlowEditor({ workflow }: { workflow: IWorkflow }) {
         inputs: nodeInputs,
       });
     },
-    [setEdges, updateNodeData, nodes]
+    [setEdges, updateNodeData, edges, getNode]
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
 
   const onDrop = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event: any) => {
       event.preventDefault();
 

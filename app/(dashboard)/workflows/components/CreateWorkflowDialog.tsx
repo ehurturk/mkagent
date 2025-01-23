@@ -42,7 +42,7 @@ export function CreateWorkflowDialog({
 }: CreateWorkflowDialogProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
@@ -78,10 +78,10 @@ export function CreateWorkflowDialog({
     setIsLoading(false);
   };
 
-  const handleChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    setError(null); // Clear error when user makes changes
-  };
+  // const handleChange = (field: keyof FormData, value: string) => {
+  //   setFormData((prev) => ({ ...prev, [field]: value }));
+  //   setError(null); // Clear error when user makes changes
+  // };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

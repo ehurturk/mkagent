@@ -8,7 +8,6 @@ function NodeCard({
   children,
   nodeId,
   isSelected,
-  dragHandle,
 }: {
   nodeId: string;
   isSelected: boolean;
