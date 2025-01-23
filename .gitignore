@@ -53,5 +53,6 @@ next-env.d.ts
 /app/components/
 /app/models/
 /app/workflow/
-/lib
+/lib/models.ts
+/lib/db.ts
 /prisma
