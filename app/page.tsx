@@ -2,15 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Brain,
-  Network,
-  Code2,
-  Wand2,
-  ChevronRight,
-  Github,
-  Sparkles,
-} from "lucide-react";
+import { Brain, Github, Sparkles } from "lucide-react";
 import GradientText from "@/components/ui/GradientText";
 import TrueFocus from "@/components/ui/TrueFocus";
 
@@ -137,13 +129,10 @@ export default function LandingPage() {
             <div className="mt-8 max-w-md mx-auto sm:flex sm:justify-center md:mt-10">
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-200"></div>
-                <Link
-                  href="/workflows"
-                  className="relative px-8 py-3 bg-black rounded-lg leading-none flex items-center justify-center"
-                >
-                  Start Building
-                  <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <p className="relative px-8 py-3 bg-black rounded-lg leading-none flex items-center justify-center">
+                  Coming soon...
+                  {/* <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" /> */}
+                </p>
               </div>
             </div>
           </div>
@@ -151,51 +140,6 @@ export default function LandingPage() {
       </div>
 
       {/* Features Section */}
-      <div className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Feature Cards */}
-            {[
-              {
-                icon: Network,
-                title: "Visual Agent Builder",
-                description:
-                  "Drag and drop nodes to create complex AI agent workflows. Connect tools, functions, and APIs with ease.",
-                gradient: "from-blue-500 to-cyan-500",
-              },
-              {
-                icon: Code2,
-                title: "Code Generation",
-                description:
-                  "Automatically generate Langchain code from your visual workflows. Deploy anywhere with confidence.",
-                gradient: "from-purple-500 to-pink-500",
-              },
-              {
-                icon: Wand2,
-                title: "Custom Tools & Functions",
-                description:
-                  "Create and integrate custom tools, functions, and API calls to extend your agent's capabilities.",
-                gradient: "from-cyan-500 to-blue-500",
-              },
-            ].map((feature, index) => (
-              <div key={index} className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-200"></div>
-                <div className="relative p-6 bg-gray-800 rounded-xl transition-transform group-hover:-translate-y-1">
-                  <div
-                    className={`w-12 h-12 rounded-lg bg-gradient-to-r ${feature.gradient} flex items-center justify-center`}
-                  >
-                    <feature.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-medium text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-2 text-gray-400">{feature.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* CTA Section */}
       <div className="relative">
@@ -215,13 +159,9 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 relative group inline-block">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-200"></div>
-            <Link
-              href="/workflows"
-              className="relative px-8 py-3 bg-black rounded-lg leading-none flex items-center justify-center"
-            >
-              Start Building
-              <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <p className="relative px-8 py-3 bg-black rounded-lg leading-none flex items-center justify-center">
+              Coming soon...
+            </p>
           </div>
         </div>
       </div>
