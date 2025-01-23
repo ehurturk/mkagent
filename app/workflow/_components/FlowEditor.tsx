@@ -12,6 +12,9 @@ import {
   ColorMode,
   useReactFlow,
   Node,
+  addEdge,
+  Connection,
+  Edge,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -22,31 +25,63 @@ import { IWorkflow } from "@/lib/models";
 import { useDragDrop } from "@/app/workflow/lib/DragDropContext";
 import { CreateFlowNode } from "@/app/workflow/lib/createFlowNode";
 import { TaskRegistry } from "@/app/workflow/lib/tasks/registry";
-import { TaskType } from "@/app/workflow/types/task";
+import { TaskParameterType, TaskType } from "@/app/workflow/types/task";
 import { AppNode } from "@/app/workflow/types/appNode";
 import { useWorkflowId } from "@/app/workflow/lib/hooks/useWorkflowId";
+import { edgeTypes } from "@/app/workflow/types/edgeTypes";
 
 const fitViewOptions = { padding: 1 };
 
 function FlowEditor({ workflow }: { workflow: IWorkflow }) {
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   const { setWorkflowId } = useWorkflowId();
 
   const { theme } = useTheme();
 
   const [type] = useDragDrop();
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, updateNodeData, getNode } = useReactFlow();
 
   useEffect(() => {
     setWorkflowId(workflow.id);
   }, [workflow?.id]);
 
-  // TODO: Use a customized edge on connect callback.
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => eds.concat(params)),
-    [setEdges]
+    (params: Connection) => {
+      const targetH = params.targetHandle;
+      const sourceH = params.sourceHandle;
+
+      if (!sourceH || !targetH) return;
+
+      const s = getNode(params.source) as AppNode;
+      const t = getNode(params.target) as AppNode;
+
+      if (!s || !t) return;
+
+      // TODO: Either the types must match OR it must be a future execution (we don't know the type yet).
+      if (
+        TaskRegistry[s.data.type].outputs.some(
+          (out) =>
+            out.type.toString() === t.data.type.toString() ||
+            out.type === TaskParameterType.COMPUTATION
+        ) ||
+        TaskRegistry[t.data.type].inputs.some(
+          (inp) =>
+            inp.type.toString() === s.data.type.toString() ||
+            inp.type === TaskParameterType.COMPUTATION
+        )
+      )
+        setEdges((eds) => addEdge({ ...params, type: "custom" }, edges));
+
+      if (!params.targetHandle) return;
+      const nodeInputs = t.data.inputs;
+      delete nodeInputs[params.targetHandle];
+      updateNodeData(t.id, {
+        inputs: nodeInputs,
+      });
+    },
+    [setEdges, updateNodeData, nodes]
   );
 
   const onDragOver = useCallback((event: any) => {
@@ -96,6 +131,7 @@ function FlowEditor({ workflow }: { workflow: IWorkflow }) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitViewOptions={fitViewOptions}
         colorMode={theme as ColorMode}
         onDrop={onDrop}

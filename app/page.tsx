@@ -11,6 +11,8 @@ import {
   Github,
   Sparkles,
 } from "lucide-react";
+import GradientText from "@/components/ui/GradientText";
+import TrueFocus from "@/components/ui/TrueFocus";
 
 export default function LandingPage() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -19,6 +21,7 @@ export default function LandingPage() {
     <div className="relative min-h-screen bg-gray-900 text-gray-100">
       {/* <LightBeamsBackground /> */}
       {/* Animated background gradient */}
+
       <div className="fixed inset-0 bg-gradient-to-br from-blue-900/20 via-gray-900 to-purple-900/20 animate-gradient-xy" />
 
       {/* Navigation */}
@@ -85,15 +88,43 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
+
       <div className="relative pt-32 pb-20 sm:pt-40 sm:pb-24">
+        <TrueFocus
+          sentence="Make Agents"
+          manualMode={false}
+          blurAmount={5}
+          borderColor="#00d9ff"
+          animationDuration={1}
+          pauseBetweenAnimations={1}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center relative z-10">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold">
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 animate-text-gradient pb-2">
-                Build <code>AI Agents</code> Visually,
-              </span>
-              <span className="block text-gray-300 mt-2">
-                With <code>0</code> Lines of <code>Code</code>.
+              {/* <span className="justify-between block bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 animate-text-gradient pb-2"> */}
+              {/* Build */}
+
+              {/* Visually, */}
+              {/* </span> */}
+              <span className="block text-gray-300 mt-4">
+                With{" "}
+                {/* <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 animate-text-gradient"> */}
+                <GradientText
+                  colors={[
+                    "#6be3bd",
+                    "#2ed4c0",
+                    "#c084fc",
+                    "#fbba76",
+                    "#6be3bd",
+                  ]}
+                  animationSpeed={5}
+                  showBorder={false}
+                  className="custom-class"
+                >
+                  <code className="mx-1">0</code> Lines
+                </GradientText>
+                {/* </span>{" "} */}
+                of <code className="mx-1">Code</code>.
               </span>
             </h1>
             <p className="mt-6 max-w-md mx-auto text-gray-400 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl">

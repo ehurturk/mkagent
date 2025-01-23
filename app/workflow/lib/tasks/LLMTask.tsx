@@ -9,11 +9,18 @@ export const LLMTask: Task = {
   isEntryPoint: false,
   inputs: [
     {
-      name: "User Prompt",
-      type: TaskParameterType.PROMPT,
+      name: "Prompt",
+      type: TaskParameterType.CREATE_PROMPT,
       required: true,
       hideHandle: false,
+      connectionCount: 1,
     },
   ],
-  outputs: [],
+  attributes: [],
+  outputs: [
+    {
+      name: "Output",
+      type: TaskParameterType.STRING,
+    },
+  ],
 };

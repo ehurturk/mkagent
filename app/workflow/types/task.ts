@@ -2,9 +2,13 @@ import { LucideProps } from "lucide-react";
 
 export enum TaskParameterType {
   STRING = "STRING",
-  PROMPT = "PROMPT",
+  CREATE_PROMPT = "CREATE_PROMPT",
   EDITOR = "EDITOR", // for prompt editor, etc.
-  LLM = "LLM",
+  USE_LLM = "USE_LLM",
+  EXPRESSION = "EXPRESSION", // boolean expressions
+  COMPUTATION = "COMPUTATION", // represents a future computation
+  DATA = "DATA",
+  DROPDOWN = "DROPDOWN",
 }
 
 export interface EditorComponentProps<T = any> {
@@ -22,6 +26,7 @@ interface TaskParameterArgs {
 export interface TaskParameter {
   name: string;
   type: TaskParameterType;
+  connectionCount?: number;
   required?: boolean;
   hideHandle?: boolean;
   args?: TaskParameterArgs; // additional params
@@ -36,6 +41,8 @@ export interface TaskOutput {
 export enum TaskType {
   CREATE_PROMPT = "CREATE_PROMPT",
   USE_LLM = "USE_LLM",
+  ON_CONDITION = "ON_CONDITION",
+  PARSE_JSON = "PARSE_JSON",
 }
 
 export interface Task {
@@ -45,5 +52,6 @@ export interface Task {
   icon: (props: LucideProps) => React.ReactNode;
   isEntryPoint: boolean;
   inputs: TaskParameter[];
+  attributes: any[];
   outputs: TaskParameter[];
 }

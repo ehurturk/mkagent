@@ -4,6 +4,10 @@ import {
   NodeInputs,
   NodeInput,
 } from "@/app/workflow/_components/nodes/NodeInputs";
+import {
+  NodeOutput,
+  NodeOutputs,
+} from "@/app/workflow/_components/nodes/NodeOutputs";
 import { TaskRegistry } from "@/app/workflow/lib/tasks/registry";
 import { AppNodeData } from "@/app/workflow/types/appNode";
 import { NodeProps } from "@xyflow/react";
@@ -16,11 +20,29 @@ const NodeComponent = memo((props: NodeProps) => {
   return (
     <NodeCard nodeId={props.id} isSelected={!!props.selected}>
       <NodeHeader taskType={nodeData.type} />
-      <NodeInputs>
-        {task.inputs.map((input) => (
-          <NodeInput key={input.name} input={input} nodeId={props.id} />
-        ))}
-      </NodeInputs>
+      <div className="flex justify-between">
+        {" "}
+        {/* Container for inputs and outputs */}
+        <NodeInputs>
+          {task.inputs.map((input) => (
+            <NodeInput
+              key={input.name}
+              input={input}
+              nodeId={props.id}
+              connectionCount={input.connectionCount}
+            />
+          ))}
+        </NodeInputs>
+        <NodeOutputs>
+          {task.outputs.map((out) => (
+            <NodeOutput
+              key={out.name}
+              output={out}
+              connectionCount={out.connectionCount}
+            />
+          ))}
+        </NodeOutputs>
+      </div>
     </NodeCard>
   );
 });

@@ -30,11 +30,14 @@ export const PromptTask: Task = {
       hideHandle: true,
       args: { editor: PromptEditorWrapped },
     },
+    // { name: "Variable", type: TaskParameterType.STRING, required: true },
+    // { name: "Var 2", type: TaskParameterType.STRING, required: true },
   ],
+  attributes: [],
   outputs: [
     {
       name: "LLM",
-      type: TaskParameterType.LLM,
+      type: TaskParameterType.USE_LLM,
     },
   ],
 };

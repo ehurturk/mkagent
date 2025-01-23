@@ -3,7 +3,7 @@
 import { ParamProps } from "@/app/workflow/types/appNode";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { MessageCircleQuestionIcon } from "lucide-react";
 import {
   Tooltip,
@@ -11,11 +11,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-function StringParam({ param, value, updateNodeParamValue }: ParamProps) {
+function StringParam({
+  param,
+  value,
+  updateNodeParamValue,
+  disabled,
+}: ParamProps) {
   const [ival, setIval] = useState(value || "");
   const [isFocused, setIsFocused] = useState(false);
   const id = useId();
+
+  useEffect(() => {
+    setIval(value || "");
+  }, [value]);
 
   return (
     <div className="space-y-2 p-2 w-full group transition-all">
@@ -49,6 +59,7 @@ function StringParam({ param, value, updateNodeParamValue }: ParamProps) {
         <Input
           id={id}
           value={ival}
+          disabled={disabled}
           placeholder={`Enter ${param.name.toLowerCase()}...`}
           onChange={(e) => setIval(e.target.value)}
           onBlur={(e) => {

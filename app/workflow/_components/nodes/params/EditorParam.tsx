@@ -9,20 +9,21 @@
 }
 */
 import { TaskParameter } from "@/app/workflow/types/task";
-import { Button } from "@/components/ui/button";
-import { ChevronRight, Wand2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Label } from "@/components/ui/label";
+import React from "react";
 
 export default function EditorParam({
   id,
   param,
   value,
   updateNodeParamValue,
+  disabled,
 }: {
   id: string;
   param: TaskParameter;
   value: string;
   updateNodeParamValue: any;
+  disabled: boolean;
 }) {
   const EditorComponent = param.args?.editor;
 
@@ -48,15 +49,28 @@ export default function EditorParam({
   }, [value]);
 
   return (
-    <div>
-      {EditorComponent && (
-        <EditorComponent
-          id={id}
-          param={param}
-          value={parsedInitialValue}
-          onSave={updateNodeParamValue}
-        />
-      )}
+    <div className="space-y-2 p-2 w-full group transition-all">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <Label
+            htmlFor={id}
+            className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors"
+          >
+            {param.name}
+          </Label>
+        </div>
+      </div>
+
+      <div className="relative">
+        {EditorComponent && (
+          <EditorComponent
+            id={id}
+            param={param}
+            value={parsedInitialValue}
+            onSave={updateNodeParamValue}
+          />
+        )}
+      </div>
     </div>
   );
 }

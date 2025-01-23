@@ -50,12 +50,15 @@ export default async function Page() {
             {
               label: "Active Workflows",
               value:
-                workflows?.filter((w) => w.status === "Published").length || 0,
+                workflows?.filter((w) => w.status.toLowerCase() === "published")
+                  .length || 0,
               icon: Activity,
             },
             {
               label: "Draft Workflows",
-              value: workflows?.filter((w) => w.status === "DRAFT").length || 0,
+              value:
+                workflows?.filter((w) => w.status.toLowerCase() === "draft")
+                  .length || 0,
               icon: Layers,
             },
           ].map((stat) => (

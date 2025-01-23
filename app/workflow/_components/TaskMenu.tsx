@@ -19,13 +19,33 @@ const taskCategories = [
     ],
   },
   {
-    title: "Processing",
-    icon: "⚡",
+    title: "Data",
+    icon: "📊",
     color: "from-amber-500/20 to-yellow-500/20",
-    tasks: [],
+    tasks: [
+      {
+        type: "PARSE_JSON",
+        title: "Parse JSON",
+        description: "Parse JSON from data",
+        icon: "📁",
+      },
+    ],
   },
   {
-    title: "AI Tasks",
+    title: "State",
+    icon: "⚙️",
+    color: "from-amber-500/20 to-yellow-500/20",
+    tasks: [
+      {
+        type: "ON_CONDITION",
+        title: "Conditioner",
+        description: "Select/Execute based on a condition",
+        icon: "↪️",
+      },
+    ],
+  },
+  {
+    title: "AI",
     icon: "🤖",
     color: "from-violet-500/20 to-purple-500/20",
     tasks: [
