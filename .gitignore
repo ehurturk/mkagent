@@ -46,3 +46,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# CHANGE THIS LATER:
+/app/(dashboard)/
+/app/api/
+/app/components/
+/app/models/
+/app/workflow/
+/lib
+/prisma
