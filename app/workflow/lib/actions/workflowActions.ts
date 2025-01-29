@@ -4,8 +4,6 @@ import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 import { AppNode } from "@/app/workflow/types/appNode";
 import { Edge } from "@xyflow/react";
-import { CreateFlowNode } from "@/app/workflow/lib/createFlowNode";
-import { TaskType } from "@/app/workflow/types/task";
 
 // export const runtime = "edge";
 export async function createWorkflow(data: {
@@ -19,7 +17,8 @@ export async function createWorkflow(data: {
   }
 
   const initialFlow: { nodes: AppNode[]; edges: Edge[] } = {
-    nodes: [CreateFlowNode(TaskType.CREATE_PROMPT)],
+    // nodes: [CreateFlowNode(TaskType.CREATE_PROMPT),],
+    nodes: [],
     edges: [],
   };
 

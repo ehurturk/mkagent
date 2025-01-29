@@ -1,6 +1,7 @@
 "use client";
 
 import SaveBtn from "@/app/workflow/_components/topbar/SaveBtn";
+import ExecuteButton from "@/app/workflow/_components/topbar/RunBtn";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
@@ -36,6 +37,7 @@ function Topbar({ id, title, subtitle }: Props) {
         </div>
       </div>
       <div className="flex gap-1 flex-1 justify-end">
+        <ExecuteButton />
         <SaveBtn id={id} />
       </div>
     </header>

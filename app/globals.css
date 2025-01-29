@@ -6,6 +6,39 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+[data-theme="solarized"] {
+  /* Base Colors */
+  --base03: #002b36;
+  --base02: #073642;
+  --base01: #586e75;
+  --base00: #657b83;
+  --base0: #839496;
+  --base1: #93a1a1;
+  --base2: #eee8d5;
+  --base3: #fdf6e3;
+
+  /* Accent Colors */
+  --yellow: #b58900;
+  --orange: #cb4b16;
+  --red: #dc322f;
+  --magenta: #d33682;
+  --violet: #6c71c4;
+  --blue: #268bd2;
+  --cyan: #2aa198;
+  --green: #859900;
+
+  /* Theme-Specific Styles */
+  --background: var(--base03);
+  --foreground: var(--base0);
+  --primary: var(--blue);
+  --secondary: var(--cyan);
+  --accent: var(--yellow);
+  --muted: var(--base01);
+  --border: var(--base02);
+  --error: var(--red);
+  --success: var(--green);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -73,8 +106,12 @@ body {
 
 @layer utilities {
   .bg-grid-white\/10 {
-    background-image: linear-gradient(to right, rgb(255 255 255 / 0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px);
+    background-image: linear-gradient(
+        to right,
+        rgb(255 255 255 / 0.1) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 }

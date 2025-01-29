@@ -9,7 +9,9 @@ IMPORTANT: Fix workflow creation error not shown!!!!
   - Ensure overall security
 - For `workflowActions.tsx`, cleanup error handling, use throw/return Error and then handle the error in the corresponding client.
 - Task registry
-
+- Execution type separation / concurrency
+- typed task implementation
+- saving execution environments to db
 - prompt editor template saving
 - MIGRATE TO REACT QUERY!
 - restrict edge creation to certain types.

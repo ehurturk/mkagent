@@ -29,6 +29,18 @@ const taskCategories = [
         description: "Parse JSON from data",
         icon: "📁",
       },
+      {
+        type: "PARSE_CSV",
+        title: "Parse CSV",
+        description: "Parse CSV from data",
+        icon: "📁",
+      },
+      {
+        type: "DATA_FETCHER",
+        title: "Fetch Data",
+        description: "Fetch data from endpoint",
+        icon: "📁",
+      },
     ],
   },
   {
