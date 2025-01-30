@@ -7,11 +7,18 @@ import {useEdges, useNodes} from "@xyflow/react";
 import toast from "react-hot-toast";
 import {WorkflowExecutionEngine, NodeExecutionStatus} from "@/lib/execution/execution";
 import {AppNode} from "@/app/workflow/types/appNode";
+import ExecutionProgress from "@/app/workflow/_components/ExecutionProcessDialog";
 
 export default function ExecuteButton() {
     const [isExecuting, setIsExecuting] = useState(false);
+    const [showProgress, setShowProgress] = useState(false);
+
     const nodes = useNodes() as AppNode[];
     const edges = useEdges();
+    const [executionState, setExecutionState] = useState<Map<string, {
+        status: NodeExecutionStatus,
+        error?: Error,
+    }>>(new Map());
 
     const handleExecute = useCallback(async () => {
         if (nodes.length === 0) {
@@ -21,7 +28,12 @@ export default function ExecuteButton() {
 
         const engine = new WorkflowExecutionEngine(nodes, edges);
 
+        engine.onNodeStatusChange = (nodeId: string, status: NodeExecutionStatus, error?: Error) => {
+            setExecutionState(prev => new Map(prev).set(nodeId, {status, error}))
+        }
+
         setIsExecuting(true);
+        setShowProgress(true);
         await toast.promise(
             async () => {
                 try {
@@ -62,7 +74,7 @@ export default function ExecuteButton() {
     const isDisabled = isExecuting || nodes.length === 0;
 
     return (
-        <Button
+        <><Button
             variant="outline"
             onClick={handleExecute}
             disabled={isDisabled}
@@ -77,5 +89,12 @@ export default function ExecuteButton() {
                 "Execute Workflow"
             )}
         </Button>
+            <ExecutionProgress
+                isOpen={showProgress}
+                onClose={() => setShowProgress(false)}
+                nodes={nodes}
+                executionState={executionState}
+            />
+        </>
     );
 }

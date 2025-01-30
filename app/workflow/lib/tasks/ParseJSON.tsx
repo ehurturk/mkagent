@@ -1,5 +1,5 @@
 import {Task, TaskParameterType, TaskType} from "@/app/workflow/types/task";
-import {ExecutionState, TaskParameterStore} from "@/lib/execution/types";
+import {ExecutionState, TaskParameterStore} from "@/lib/execution/execution";
 import {BriefcaseConveyorBelt, LucideProps} from "lucide-react";
 
 export const ParseJSON: Task = {

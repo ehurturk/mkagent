@@ -4,6 +4,7 @@ import {AppNode} from "@/app/workflow/types/appNode";
 import {TaskRegistry} from '@/app/workflow/lib/tasks/registry';
 
 export type TaskParameterStore = Record<string, unknown>;
+export type WorkflowExecutionState = Map<string, NodeExecutionState>;
 
 export interface ExecutionState {
     variables: Record<string, unknown>;
@@ -30,9 +31,10 @@ export class WorkflowExecutionEngine {
     private nodes: AppNode[];
     private edges: Edge[];
     // store the execution state of each task
-    private readonly executionState: Map<string, NodeExecutionState>;
+    private readonly executionState: WorkflowExecutionState;
     // a global execution state
     private readonly globalState: ExecutionState;
+    private _onNodeStatusChange: ((nodeId: string, status: NodeExecutionStatus, error?: Error) => void) | undefined;
 
     constructor(nodes: AppNode[], edges: Edge[]) {
         this.nodes = nodes;
@@ -49,6 +51,26 @@ export class WorkflowExecutionEngine {
                 status: NodeExecutionStatus.PENDING,
             });
         });
+    }
+
+    set onNodeStatusChange(handler: ((nodeId: string, status: NodeExecutionStatus, error?: Error) => void) | undefined) {
+        this._onNodeStatusChange = handler;
+    }
+
+    get onNodeStatusChange(): ((nodeId: string, status: NodeExecutionStatus, error?: Error) => void) | undefined {
+        return this._onNodeStatusChange;
+    }
+
+
+    private updateNodeStatus(nodeId: string, status: NodeExecutionStatus, error?: Error) {
+        const currentState = this.executionState.get(nodeId);
+        this.executionState.set(nodeId, {
+            status,
+            outputs: currentState?.outputs,  // Preserve any existing outputs
+            error
+        });
+        if (this._onNodeStatusChange)
+            this._onNodeStatusChange(nodeId, status, error);
     }
 
     // Find all entry point nodes
@@ -108,15 +130,17 @@ export class WorkflowExecutionEngine {
             const task = TaskRegistry[node.data.type];
             const nodeState = this.executionState.get(node.id);
 
-            if (!nodeState || nodeState.status === NodeExecutionStatus.COMPLETED) {
+            if (!nodeState || nodeState.status === NodeExecutionStatus.COMPLETED || nodeState.status === NodeExecutionStatus.SKIPPED) {
                 return;
             }
 
             // Update status to running
-            this.executionState.set(node.id, {
-                ...nodeState,
-                status: NodeExecutionStatus.RUNNING,
-            });
+            // this.executionState.set(node.id, {
+            //     ...nodeState,
+            //     status: NodeExecutionStatus.RUNNING,
+            // });
+            this.updateNodeStatus(node.id, NodeExecutionStatus.RUNNING);
+
 
             // Collect inputs from incoming edges
             const inputs = await this.collectNodeInputs(node);
@@ -134,6 +158,7 @@ export class WorkflowExecutionEngine {
             });
 
             // Update execution state with outputs
+            this.updateNodeStatus(node.id, NodeExecutionStatus.COMPLETED);
             this.executionState.set(node.id, {
                 status: NodeExecutionStatus.COMPLETED,
                 outputs,
@@ -157,10 +182,11 @@ export class WorkflowExecutionEngine {
                 });
             }
         } catch (error) {
-            this.executionState.set(node.id, {
-                status: NodeExecutionStatus.ERROR,
-                error: error as Error,
-            });
+            this.updateNodeStatus(
+                node.id,
+                NodeExecutionStatus.ERROR,
+                error as Error
+            );
             throw error;
         }
     }
@@ -185,9 +211,7 @@ export class WorkflowExecutionEngine {
 
         // Mark all nodes in the branch as skipped
         nodesToSkip.forEach(nodeId => {
-            this.executionState.set(nodeId, {
-                status: NodeExecutionStatus.SKIPPED,
-            });
+            this.updateNodeStatus(nodeId, NodeExecutionStatus.SKIPPED);
         });
     }
 
@@ -243,7 +267,7 @@ export class WorkflowExecutionEngine {
     }
 
     // Get the current execution state
-    public getExecutionState(): Map<string, NodeExecutionState> {
+    public getExecutionState(): WorkflowExecutionState {
         return new Map(this.executionState);
     }
 }
