@@ -67,7 +67,7 @@ export function CreateWorkflowDialog({
       status: "draft",
     })
       .then((response) => {
-        router.push(`/workflow/editor/${response.id}`);
+        router.push(`/workflow/editor/${response.id}/edit`);
         onOpenChange(false);
       })
       .catch((error) => {

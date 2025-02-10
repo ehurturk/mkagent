@@ -22,7 +22,7 @@ export default function WorkflowCard({
   return (
     <div
       className="relative group cursor-pointer"
-      onClick={() => router.push(`/workflow/editor/${id}`)}
+      onClick={() => router.push(`/workflow/editor/${id}/edit`)}
     >
       <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-200" />
       <div className="relative bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6 transition-all group-hover:-translate-y-1">

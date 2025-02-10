@@ -1,5 +1,5 @@
 import {Task, TaskParameterType, TaskType} from "@/app/workflow/types/task";
-import {ExecutionState, TaskParameterStore} from "@/lib/execution/types";
+import {ExecutionState, TaskParameterStore} from "@/lib/execution/execution";
 import {BrainIcon, LucideProps} from "lucide-react";
 
 export const LLMTask: Task = {
@@ -29,6 +29,7 @@ export const LLMTask: Task = {
         console.log("@INPUTS:", inputs);
         console.log("@STATE:", state);
 
+        await new Promise((resolve)=>setTimeout(resolve, 3000));
         // Simulating LLM call
         const response = "This is a simulated LLM response";
 
